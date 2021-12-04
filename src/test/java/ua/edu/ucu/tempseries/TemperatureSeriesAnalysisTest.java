@@ -1,6 +1,7 @@
 package ua.edu.ucu.tempseries;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import java.util.InputMismatchException;
@@ -28,9 +29,10 @@ public class TemperatureSeriesAnalysisTest {
         double expResult = 1.0;
 
         double actualResult = seriesAnalysis.average();
-        
-        assertEquals(expResult, actualResult, 0.00001);        
+
+        assertEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testTestAverageException() {
         double[] temperatureSeries = {};
@@ -48,6 +50,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testDeviationException() {
         double[] temperatureSeries = {};
@@ -65,6 +68,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testMinException() {
         double[] temperatureSeries = {};
@@ -82,6 +86,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testMaxException() {
         double[] temperatureSeries = {};
@@ -99,6 +104,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testFindTempClosestToZeroException() {
         double[] temperatureSeries = {};
@@ -116,6 +122,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testFindTempClosestToValueException() {
         double[] temperatureSeries = {};
@@ -133,6 +140,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertArrayEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testFindTempsLessThenException() {
         double[] temperatureSeries = {};
@@ -150,6 +158,7 @@ public class TemperatureSeriesAnalysisTest {
 
         assertArrayEquals(expResult, actualResult, 0.00001);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testFindTempsGreaterThenException() {
         double[] temperatureSeries = {};
@@ -166,6 +175,7 @@ public class TemperatureSeriesAnalysisTest {
         assertEquals(actualResult.toString(), "TempSummaryStatistics{avgTemp=1.0, devTemp=3.7416573867739413, minTemp=-5.0, maxTemp=5.0}");
 
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testSummaryStatisticsException() {
         double[] temperatureSeries = {};
