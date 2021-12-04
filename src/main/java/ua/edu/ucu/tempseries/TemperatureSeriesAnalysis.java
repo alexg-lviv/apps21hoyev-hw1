@@ -5,23 +5,23 @@ import java.util.InputMismatchException;
 
 public class TemperatureSeriesAnalysis {
     private double[] temperatureSeries;
-    private int actual_size;
+    private int actualSize;
 
     public TemperatureSeriesAnalysis() {
         this.temperatureSeries = new double[]{};
-        this.actual_size = 0;
+        this.actualSize = 0;
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-        if(this.check_for_lower_bound(temperatureSeries)){
+        if (this.check_for_lower_bound(temperatureSeries)){
             throw new InputMismatchException();
         }
         this.temperatureSeries = Arrays.copyOf(temperatureSeries, temperatureSeries.length);
-        this.actual_size = temperatureSeries.length;
+        this.actualSize = temperatureSeries.length;
     }
 
     public double average() {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double res = 0;
@@ -34,7 +34,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double deviation() {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double mean = this.average();
@@ -50,7 +50,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double min() {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double min = this.temperatureSeries[0];
@@ -64,7 +64,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double max() {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double max = this.temperatureSeries[0];
@@ -78,7 +78,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double findTempClosestToZero() {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double min_dif = Math.abs(this.temperatureSeries[0]);
@@ -100,7 +100,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double findTempClosestToValue(double tempValue) {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double min_dif = Math.abs(tempValue - this.temperatureSeries[0]);
@@ -108,11 +108,11 @@ public class TemperatureSeriesAnalysis {
         for (double elem:
                 this.temperatureSeries) {
             double dif = Math.abs(tempValue - elem);
-            if(dif <= min_dif){
-                if(dif == min_dif && min_dif_elem < elem){
+            if (dif <= min_dif){
+                if (dif == min_dif && min_dif_elem < elem){
                     min_dif_elem = elem;
                 }
-                else if(dif != min_dif){
+                else if (dif != min_dif){
                     min_dif_elem = elem;
                 }
                 min_dif = dif;
@@ -122,14 +122,14 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double[] findTempsLessThen(double tempValue) {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double[] arr = new double[this.temperatureSeries.length];
         int counter = 0;
         for (double elem:
             this.temperatureSeries) {
-            if(elem < tempValue) {
+            if (elem < tempValue) {
                 arr[counter] = elem;
                 counter += 1;
             }
@@ -139,14 +139,14 @@ public class TemperatureSeriesAnalysis {
     }
 
     public double[] findTempsGreaterThen(double tempValue) {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double[] arr = new double[this.temperatureSeries.length];
         int counter = 0;
         for (double elem:
                 this.temperatureSeries) {
-            if(elem > tempValue) {
+            if (elem > tempValue) {
                 arr[counter] = elem;
                 counter += 1;
             }
@@ -156,7 +156,7 @@ public class TemperatureSeriesAnalysis {
     }
 
     public TempSummaryStatistics summaryStatistics() {
-        if(this.actual_size == 0){
+        if (this.actualSize == 0){
             throw new IllegalArgumentException();
         }
         double avg = this.average();
@@ -167,18 +167,18 @@ public class TemperatureSeriesAnalysis {
     }
 
     public int addTemps(double... temps) {
-        if(this.check_for_lower_bound(temps)){
+        if (this.check_for_lower_bound(temps)){
             throw new InputMismatchException();
         }
-        if(this.temperatureSeries.length < actual_size+temps.length) {
+        if (this.temperatureSeries.length < actualSize+temps.length) {
             this.temperatureSeries = Arrays.copyOf(this.temperatureSeries, this.temperatureSeries.length * 2);
         }
-        int size_before = this.actual_size;
-        for(int i = 0; i < temps.length; i++){
+        int size_before = this.actualSize;
+        for (int i = 0; i < temps.length; i++){
             this.temperatureSeries[i+size_before] = temps[i];
-            this.actual_size += 1;
+            this.actualSize += 1;
         }
-        return this.actual_size;
+        return this.actualSize;
     }
 
     private Boolean check_for_lower_bound(double[] arr){
