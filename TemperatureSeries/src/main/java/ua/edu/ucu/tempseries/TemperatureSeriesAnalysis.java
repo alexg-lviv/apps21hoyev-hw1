@@ -1,52 +1,192 @@
 package ua.edu.ucu.tempseries;
 
+import java.util.Arrays;
+import java.util.InputMismatchException;
+
 public class TemperatureSeriesAnalysis {
+    private double[] temperatureSeries;
+    private int actual_size;
 
     public TemperatureSeriesAnalysis() {
-
+        this.temperatureSeries = new double[]{};
+        this.actual_size = 0;
     }
 
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-
+        if(this.check_for_lower_bound(temperatureSeries)){
+            throw new InputMismatchException();
+        }
+        this.temperatureSeries = Arrays.copyOf(temperatureSeries, temperatureSeries.length);
+        this.actual_size = temperatureSeries.length;
     }
 
     public double average() {
-        return -1;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double res = 0;
+        for (double elem:
+             this.temperatureSeries) {
+            res += elem;
+        }
+        res /= this.temperatureSeries.length;
+        return res;
     }
 
     public double deviation() {
-        return 0;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double mean = this.average();
+        double sd = 0;
+        for (double elem:
+             this.temperatureSeries) {
+            sd += Math.pow(elem - mean, 2);
+        }
+        sd /= this.temperatureSeries.length;
+
+        return sd;
     }
 
     public double min() {
-        return 0;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double min = this.temperatureSeries[0];
+        for (double elem:
+             this.temperatureSeries) {
+            if(min > elem){
+                min = elem;
+            }
+        }
+        return min;
     }
 
     public double max() {
-        return 0;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double max = this.temperatureSeries[0];
+        for (double elem:
+                this.temperatureSeries) {
+            if(max > elem){
+                max = elem;
+            }
+        }
+        return max;
     }
 
     public double findTempClosestToZero() {
-        return 0;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double min_dif = Math.abs(this.temperatureSeries[0]);
+        double min_dif_elem = this.temperatureSeries[0];
+        for (double elem:
+             this.temperatureSeries) {
+            double dif = Math.abs(elem);
+            if(dif <= min_dif){
+                if(dif == min_dif && min_dif_elem < elem){
+                    min_dif_elem = elem;
+                }
+                else if(dif != min_dif){
+                    min_dif_elem = elem;
+                }
+                min_dif = dif;
+            }
+        }
+        return min_dif_elem;
     }
 
     public double findTempClosestToValue(double tempValue) {
-        return 0;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double min_dif = Math.abs(tempValue - this.temperatureSeries[0]);
+        double min_dif_elem = this.temperatureSeries[0];
+        for (double elem:
+                this.temperatureSeries) {
+            double dif = Math.abs(tempValue - elem);
+            if(dif <= min_dif){
+                if(dif == min_dif && min_dif_elem < elem){
+                    min_dif_elem = elem;
+                }
+                else if(dif != min_dif){
+                    min_dif_elem = elem;
+                }
+                min_dif = dif;
+            }
+        }
+        return min_dif_elem;
     }
 
     public double[] findTempsLessThen(double tempValue) {
-        return null;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double[] arr = new double[this.temperatureSeries.length];
+        int counter = 0;
+        for (double elem:
+            this.temperatureSeries) {
+            if(elem < tempValue) {
+                arr[counter] = elem;
+                counter += 1;
+            }
+        }
+        arr = Arrays.copyOf(arr, counter+1);
+        return arr;
     }
 
     public double[] findTempsGreaterThen(double tempValue) {
-        return null;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double[] arr = new double[this.temperatureSeries.length];
+        int counter = 0;
+        for (double elem:
+                this.temperatureSeries) {
+            if(elem > tempValue) {
+                arr[counter] = elem;
+                counter += 1;
+            }
+        }
+        arr = Arrays.copyOf(arr, counter+1);
+        return arr;
     }
 
     public TempSummaryStatistics summaryStatistics() {
-        return null;
+        if(this.actual_size == 0){
+            throw new IllegalArgumentException();
+        }
+        double avg = this.average();
+        double sd = this.deviation();
+        double min = this.min();
+        double max = this.max();
+        return new TempSummaryStatistics(avg, sd, min, max);
     }
 
     public int addTemps(double... temps) {
-        return 0;
+        if(this.temperatureSeries.length < actual_size+temps.length){
+            this.temperatureSeries = Arrays.copyOf(this.temperatureSeries, this.temperatureSeries.length*2);
+        }
+        if(this.check_for_lower_bound(temps)){
+            throw new InputMismatchException();
+        }
+        int size_before = this.actual_size;
+        for(int i = 0; i < temps.length; i++){
+            this.temperatureSeries[i+size_before] = temps[i];
+            this.actual_size += 1;
+        }
+        return this.actual_size;
+    }
+
+    private Boolean check_for_lower_bound(double[] arr){
+        for (double elem:
+             arr) {
+            if(elem < -273){
+                return true;
+            }
+        }
+        return false;
     }
 }
