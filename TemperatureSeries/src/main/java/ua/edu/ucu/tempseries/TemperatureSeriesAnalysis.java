@@ -44,6 +44,7 @@ public class TemperatureSeriesAnalysis {
             sd += Math.pow(elem - mean, 2);
         }
         sd /= this.temperatureSeries.length;
+        sd = Math.sqrt(sd);
 
         return sd;
     }
@@ -69,7 +70,7 @@ public class TemperatureSeriesAnalysis {
         double max = this.temperatureSeries[0];
         for (double elem:
                 this.temperatureSeries) {
-            if(max > elem){
+            if(max < elem){
                 max = elem;
             }
         }
@@ -133,7 +134,7 @@ public class TemperatureSeriesAnalysis {
                 counter += 1;
             }
         }
-        arr = Arrays.copyOf(arr, counter+1);
+        arr = Arrays.copyOf(arr, counter);
         return arr;
     }
 
@@ -150,7 +151,7 @@ public class TemperatureSeriesAnalysis {
                 counter += 1;
             }
         }
-        arr = Arrays.copyOf(arr, counter+1);
+        arr = Arrays.copyOf(arr, counter);
         return arr;
     }
 
@@ -166,11 +167,11 @@ public class TemperatureSeriesAnalysis {
     }
 
     public int addTemps(double... temps) {
-        if(this.temperatureSeries.length < actual_size+temps.length){
-            this.temperatureSeries = Arrays.copyOf(this.temperatureSeries, this.temperatureSeries.length*2);
-        }
         if(this.check_for_lower_bound(temps)){
             throw new InputMismatchException();
+        }
+        if(this.temperatureSeries.length < actual_size+temps.length) {
+            this.temperatureSeries = Arrays.copyOf(this.temperatureSeries, this.temperatureSeries.length * 2);
         }
         int size_before = this.actual_size;
         for(int i = 0; i < temps.length; i++){
